@@ -5,6 +5,7 @@ from src.routes.authentication import authentication_router
 from src.utils.init_logger import setup_logger
 from fastapi_pagination import add_pagination
 from src.routes.roles import role_router
+from src.routes.vehicles import vehicle_router
 
 setup_logger()
 app = FastAPI(
@@ -23,3 +24,4 @@ add_pagination(app)
 app.include_router(user_router)
 app.include_router(authentication_router)
 app.include_router(role_router)
+app.include_router(vehicle_router)

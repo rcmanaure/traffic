@@ -2,21 +2,19 @@ from uuid import UUID
 from pydantic import BaseModel
 from typing import Optional
 
+# from src.dtos.response.vehicle import VehicleResponseDTO
+
 
 from .role import RoleResponseDTO
 
 
 class UserResponseDTO(BaseModel):
     id: UUID
-    email: str
-    first_name: str
-    last_name: str
-    username: str
-    address: str
-    city: str
-    zipcode: str
-    contact_number: str
+    email: str    
+    name: str
+    name: str
     role: Optional[RoleResponseDTO] = None
+    # vehicle: Optional[VehicleResponseDTO] = None
 
     class Config:
         from_attributes = True

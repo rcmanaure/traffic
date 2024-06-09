@@ -6,9 +6,7 @@ from enum import Enum
 class RoleName(str, Enum):
     ADMIN = "admin"
     USER = "user"
-    GUEST = "guest"
-    CUSTOMER = "customer"
-    CLEANER = "cleaner"
+    OFFICIAL = "official"
 
 
 class RoleDTO(BaseModel):
