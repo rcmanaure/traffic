@@ -1,0 +1,17 @@
+.dockerignore
+Dockerfile
+Dockerfile_Backend
+.git/
+.gitignore
+README.md
+**/test
+docker-compose*
+venv
+.vscode/
+.pytest_cache/
+.github/
+.pre-commit-config.yaml
+__pycache__/
+.env_github_actions
+.env.example
+docker
