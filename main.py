@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 from src.routes.users import user_router
-from src.routes.listings import listings_router
 from src.routes.authentication import authentication_router
 from src.utils.init_logger import setup_logger
 from fastapi_pagination import add_pagination
@@ -22,6 +21,5 @@ app = FastAPI(
 add_pagination(app)
 
 app.include_router(user_router)
-app.include_router(listings_router)
 app.include_router(authentication_router)
 app.include_router(role_router)

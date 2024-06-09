@@ -13,12 +13,10 @@ class Role(Base, ModelBase):
         nullable=False,
         unique=True,
     )
-    description = Column(String(Constants.MAX_LENGTH_DESCRIPTION))
-    # user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
+    description = Column(String(Constants.MAX_LENGTH_DESCRIPTION))    
     user = relationship(
         "User",
-        back_populates="role",
-        # lazy="joined",
+        back_populates="role",        
     )
     permissions = relationship("Permission", back_populates="roles")
 

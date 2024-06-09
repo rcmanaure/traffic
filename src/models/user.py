@@ -1,7 +1,7 @@
 from sqlalchemy import Boolean, Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
-from src.models.follows import Follow
+
 from src.models.roles_permissions import Role
 from src.utils.db_utils import Constants
 from sqlalchemy.dialects.postgresql import UUID
@@ -32,14 +32,4 @@ class User(Base, ModelBase):
         back_populates="user",
         lazy="joined",
     )
-    # One-to-many relationship with the follows table
-    follower = relationship(
-        Follow,
-        foreign_keys=Follow.follower_id,
-        back_populates="follower_user",
-    )
-    followee = relationship(
-        Follow,
-        foreign_keys=Follow.followee_id,
-        back_populates="followee_user",
-    )
+
