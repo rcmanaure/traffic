@@ -11,8 +11,8 @@ from .role import RoleResponseDTO
 class UserResponseDTO(BaseModel):
     id: UUID
     email: str
-    name: str
-    name: str
+    username: str
+    username: str
     role: Optional[RoleResponseDTO] = None
 
     class Config:

@@ -6,14 +6,14 @@ from src.dtos.request.role import RoleName
 
 class UserDTO(BaseModel):
     email: EmailStr
-    name: str
+    username: str
     password: str
     role_id: RoleName = RoleName.USER
 
 
 class UserUpdateDTO(BaseModel):
     email: Optional[EmailStr] = None
-    name: Optional[str] = None
+    username: Optional[str] = None
     role_id: Optional[RoleName] = None
 
     class Config:

@@ -11,7 +11,7 @@ from .base import ModelBase, Base
 
 class User(Base, ModelBase):
     __tablename__ = "users"
-    name = Column(String(Constants.MAX_LENGTH_USERNAME), unique=True)
+    username = Column(String(Constants.MAX_LENGTH_USERNAME), unique=True)
     email = Column(
         String(Constants.MAX_LENGTH_EMAIL),
         unique=True,
