@@ -37,9 +37,14 @@ def create_user(
     user: UserDTO, db: Session = Depends(get_db)  # noqa
 ) -> UserResponseDTO:
     db_operations = DatabaseCRUD(db)
+    
     role = db_operations.get_by_field(Role, "name", RoleName.USER.value)
-    user.role_id = role.id
+    print(role.id)
+
+    # user.role_id = role.id
     user.password = get_password_hash(user.password)
+    user = user.model_dump()
+    user["role_id"] = role.id
     user = db_operations.create_row(User, user)
     return user
 
