@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from src.authentication import create_token
+from src.authentication.create_token import create_token
 from src.db import get_db
 from src.dtos.authentication.user import UserJwtPayload
 from src.models.user import User
@@ -39,12 +39,7 @@ def login(
         username=user.username,
         is_active=user.is_active,
         role_id=str(user.role_id),
-        role_name=user.role.name,
-        first_name=user.first_name,
-        last_name=user.last_name,
-        zipcode=user.zipcode,
-        contact_number=user.contact_number,
-        city=user.city,
+        role_name=user.role.name,  
     ).model_dump()
 
     access_token = create_token(data, timedelta(hours=settings.TOKEN_EXPIRY))

@@ -4,12 +4,7 @@ from pydantic import BaseModel
 class AuthenticationUser(BaseModel):
     email: str
     username: str
-    first_name: str
-    last_name: str
-    address: str
-    city: str
-    zipcode: str
-    contact_number: str
+
 
 
 class UserJwtPayload(BaseModel):
@@ -19,8 +14,4 @@ class UserJwtPayload(BaseModel):
     is_active: bool
     role_id: str
     role_name: str
-    first_name: str
-    last_name: str
-    zipcode: str
-    contact_number: str
-    city: str
+
