@@ -6,6 +6,7 @@ from src.authentication.oauth_implementation import get_current_user
 from src.db import get_db
 from src.dtos.request.error_msg import ErrorMsgDTO
 from src.filters.infraction_filter import InfractionFilter
+from src.models.vehicle import Vehicle
 from src.routes.base_crud import DatabaseCRUD
 from fastapi_pagination import Page
 from src.dtos.request.infraction import InfractionDTO
@@ -33,6 +34,9 @@ def create_infraction(
     infraction: InfractionDTO, db: Session = Depends(get_db)  # noqa
 ) -> InfractionResponseDTO:
     db_operations = DatabaseCRUD(db)
+    vehicle = db_operations.get_by_field(Vehicle, "plate", infraction.plate)
+    infraction = infraction.model_dump()
+    infraction["vehicle_id"] = vehicle.id
     infraction = db_operations.create_row(Infraction, infraction)
     return infraction
 

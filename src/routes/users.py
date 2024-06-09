@@ -37,11 +37,8 @@ def create_user(
     user: UserDTO, db: Session = Depends(get_db)  # noqa
 ) -> UserResponseDTO:
     db_operations = DatabaseCRUD(db)
-    
-    role = db_operations.get_by_field(Role, "name", RoleName.USER.value)
-    print(role.id)
 
-    # user.role_id = role.id
+    role = db_operations.get_by_field(Role, "name", RoleName.USER.value)
     user.password = get_password_hash(user.password)
     user = user.model_dump()
     user["role_id"] = role.id
@@ -63,9 +60,10 @@ def create_oficial(
     user: OficialDTO, db: Session = Depends(get_db)  # noqa
 ) -> OficialResponseDTO:
     db_operations = DatabaseCRUD(db)
-    role = db_operations.get_by_field(Role, "name", RoleName.OFFICIAL.value)
-    user.role_id = role.id
+    role = db_operations.get_by_field(Role, "name", RoleName.OFFICIAL.value)    
     user.password = get_password_hash(user.password)
+    user = user.model_dump()
+    user["role_id"] = role.id
     user = db_operations.create_row(User, user)
     return user
 
@@ -130,8 +128,8 @@ def update_user(
 )
 def delete_user(
     user_id: str,
-    db: Session = Depends(get_db), # noqa
-    current_user: UserJwtPayload = Depends(get_current_user), # noqa
+    db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ):  # noqa
     """
     Delete a user by id

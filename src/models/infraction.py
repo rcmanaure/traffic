@@ -22,6 +22,6 @@ class Infraction(Base, ModelBase):
     vehicle = relationship(
         Vehicle,
         back_populates="infraction",
-        # lazy="joined",
+        lazy="joined",
     )
     
