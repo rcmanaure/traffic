@@ -10,11 +10,10 @@ from .role import RoleResponseDTO
 
 class UserResponseDTO(BaseModel):
     id: UUID
-    email: str    
+    email: str
     name: str
     name: str
     role: Optional[RoleResponseDTO] = None
-    # vehicle: Optional[VehicleResponseDTO] = None
 
     class Config:
         from_attributes = True
