@@ -29,6 +29,8 @@ def login(
             raise HTTPException(status_code=400, detail="Invalid password") 
         elif user.is_active is False:
             raise HTTPException(status_code=400, detail="User is not active")
+        elif user.role.name == "user":
+            raise HTTPException(status_code=400, detail="Users cannot login here")
 
     except SQLAlchemyError as error:
         raise error

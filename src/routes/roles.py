@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, status
 from fastapi_filter import FilterDepends
 from sqlalchemy.orm import Session
 from fastapi.responses import Response
+from src.authentication.oauth_implementation import get_current_user
 from src.db import get_db
 from src.dtos.request.error_msg import ErrorMsgDTO
 from src.filters.role_filter import RoleFilter
@@ -16,7 +17,7 @@ tag = "roles"
 role_router = APIRouter(
     prefix=f"/{tag}",
     tags=[tag],
-    # dependencies=[Depends(oauth2_scheme)],
+    dependencies=[Depends(get_current_user)],
 )
 
 

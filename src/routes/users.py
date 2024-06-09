@@ -6,6 +6,9 @@ from src.authentication.oauth_implementation import (
 )
 from src.db import get_db
 from src.dtos.request.error_msg import ErrorMsgDTO
+from src.dtos.request.oficial import OficialDTO
+from src.dtos.request.role import RoleName
+from src.dtos.response.oficial import OficialResponseDTO
 from src.filters.user_filter import UserFilter
 from src.models.roles_permissions import Role
 from src.models.user import User
@@ -34,7 +37,27 @@ def create_user(
     user: UserDTO, db: Session = Depends(get_db)  # noqa
 ) -> UserResponseDTO:
     db_operations = DatabaseCRUD(db)
-    role = db_operations.get_by_field(Role, "name", user.role_id.value)
+    role = db_operations.get_by_field(Role, "name", RoleName.USER.value)
+    user.role_id = role.id
+    user.password = get_password_hash(user.password)
+    user = db_operations.create_row(User, user)
+    return user
+
+
+@user_router.post(
+    "/oficial",
+    response_model=UserResponseDTO,
+    status_code=status.HTTP_201_CREATED,
+    responses={
+        400: {"model": ErrorMsgDTO},
+        500: {"model": ErrorMsgDTO},
+    },
+)
+def create_oficial(
+    user: OficialDTO, db: Session = Depends(get_db)  # noqa
+) -> OficialResponseDTO:
+    db_operations = DatabaseCRUD(db)
+    role = db_operations.get_by_field(Role, "name", RoleName.OFFICIAL.value)
     user.role_id = role.id
     user.password = get_password_hash(user.password)
     user = db_operations.create_row(User, user)
@@ -48,6 +71,8 @@ def create_user(
 def get_users(
     user_filter: UserFilter = FilterDepends(UserFilter),  # noqa
     db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
+    # noqa
 ) -> Page[UserResponseDTO]:  # noqa
     db_operations = DatabaseCRUD(db)
     users = db_operations.get_all(User, user_filter)
@@ -62,7 +87,11 @@ def get_user_me(
 
 
 @user_router.get("/{user_id}")  # noqa
-def get_user(user_id: str, db: Session = Depends(get_db)):  # noqa
+def get_user(
+    user_id: str,
+    db: Session = Depends(get_db),
+    current_user: UserJwtPayload = Depends(get_current_user),
+):  # noqa
     """
     Get a user by id
     """
@@ -79,6 +108,7 @@ def update_user(
     user: UserUpdateDTO,
     user_id: str,
     db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ):  # noqa
     """
     Update a user by id
@@ -92,7 +122,11 @@ def update_user(
     "/{user_id}",
     status_code=status.HTTP_204_NO_CONTENT,
 )
-def delete_user(user_id: str, db: Session = Depends(get_db)):  # noqa
+def delete_user(
+    user_id: str,
+    db: Session = Depends(get_db), # noqa
+    current_user: UserJwtPayload = Depends(get_current_user), # noqa
+):  # noqa
     """
     Delete a user by id
     """

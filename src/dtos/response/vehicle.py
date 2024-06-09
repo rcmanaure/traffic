@@ -10,7 +10,7 @@ class VehicleResponseDTO(BaseModel):
     plate: str
     model: str
     brand: str
-    user: Optional[UserResponseDTO] = None
+    # user: Optional[UserResponseDTO] = None
 
     class Config:
         from_attributes = True
