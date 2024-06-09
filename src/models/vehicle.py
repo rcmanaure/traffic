@@ -16,7 +16,11 @@ class Vehicle(Base, ModelBase):
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"))
     user = relationship(
         "User",
-        back_populates="vehicle",    
-        lazy="joined",    
+        back_populates="vehicle",
+        lazy="joined",
     )
-
+    infraction = relationship(
+        "Infraction",
+        back_populates="vehicle",
+        lazy="joined",
+    )

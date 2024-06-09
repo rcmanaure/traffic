@@ -1,22 +1,18 @@
 from typing import Optional
 
 
-from src.models.vehicle import Vehicle
+from src.models.infraction import Infraction
 from fastapi_filter.contrib.sqlalchemy import Filter
 
 
-class VehicleFilter(Filter):
+class InfractionFilter(Filter):
     plate: Optional[str] = None
-    model: Optional[str] = None
-    brand: Optional[str] = None
     user_id: Optional[str] = None
-    order_by: list[str] = ["created_at"]
+    order_by: list[str] = ["timestamp"]
     search: Optional[str] = None
 
     class Constants(Filter.Constants):
-        model = Vehicle
+        model = Infraction
         search_model_fields = [
             "plate",
-            "model",
-            "brand",
         ]
