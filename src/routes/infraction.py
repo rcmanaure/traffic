@@ -6,6 +6,7 @@ from src.authentication.oauth_implementation import get_current_user
 from src.db import get_db
 from src.dtos.request.error_msg import ErrorMsgDTO
 from src.filters.infraction_filter import InfractionFilter
+from src.models.user import User
 from src.models.vehicle import Vehicle
 from src.routes.base_crud import DatabaseCRUD
 from fastapi_pagination import Page
@@ -50,7 +51,7 @@ def get_infractions(
     infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),  # noqa
     db: Session = Depends(get_db),  # noqa
 ) -> Page[InfractionResponseDTO]:
-    
+
     db_operations = DatabaseCRUD(db)
     infractions = db_operations.get_all(Infraction, infraction_filter)
     return infractions
@@ -82,3 +83,19 @@ def delete_infraction(infraction_id: str, db: Session = Depends(get_db)):
     db_operations = DatabaseCRUD(db)
     db_operations.delete_by_id(Infraction, infraction_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@infraction_router.get(
+    "/generar_informe/{email},",
+    response_model=Page[InfractionResponseDTO],
+    response_model_exclude_none=False,
+)
+def get_infractions_by_email(
+    email: str,
+    infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),  # noqa
+    db: Session = Depends(get_db),
+) -> Page[InfractionResponseDTO]:
+    response = DatabaseCRUD(db).get_all_reports(
+        Infraction, infraction_filter, email=email
+    )
+    return response

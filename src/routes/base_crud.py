@@ -9,6 +9,9 @@ from sqlalchemy.orm import Session
 from fastapi_pagination.ext.sqlalchemy import paginate as paginate_sqlalchemy
 from fastapi_filter.contrib.sqlalchemy import Filter
 
+from src.models.user import User
+from src.models.vehicle import Vehicle
+
 
 def raise_error_response(e: str) -> None:
     """
@@ -212,9 +215,7 @@ class DatabaseCRUD:
         with self.db_session as db:
             try:
                 response = (
-                    db.query(model)
-                    .filter(getattr(model, field) == value)
-                    .first()
+                    db.query(model).filter(getattr(model, field) == value).first()
                 )
             except SQLAlchemyError as e:
                 db.rollback()
@@ -222,3 +223,56 @@ class DatabaseCRUD:
                 raise_error_response(e)
             else:
                 return response
+
+    def get_all_reports(
+        self,
+        model,
+        filters: Filter,
+        join_models: list = None,
+        email: str = None,        
+    ):
+        """Get all rows in the model table
+
+        Args:
+            model (sqlalchemy model): The model to query
+            filters (Filter): The filter object
+            join_models (list): The models to join with the query model
+            email (str): The email to filter on
+            filter_models (list): The models to filter on
+            email (str): The email to filter on
+
+        Returns:
+            query: The query result
+        """
+        with self.db_session as db:
+            try:
+                query = select(model)
+
+                if join_models:
+                    for join_model in join_models:
+                        query = query.join(join_model)
+
+                if email:
+                    user = db.query(User).filter(User.email == email).first()
+
+                    if not user:
+                        return None
+
+                    vehicles = (
+                        db.query(Vehicle).filter(Vehicle.user_id == user.id).all()
+                    )
+                    vehicle_ids = [vehicle.id for vehicle in vehicles]
+                    # print(vehicle_ids)
+
+                    query = query.filter(model.vehicle_id.in_(vehicle_ids))
+
+                query = filters.sort(query)
+                query = filters.filter(query)
+
+                query = paginate_sqlalchemy(db, query)
+            except SQLAlchemyError as e:
+                db.rollback()
+                logging.error(e)
+                raise HTTPException(status_code=500, detail=str(e))
+            else:
+                return query
