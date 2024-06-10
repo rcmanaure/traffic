@@ -30,6 +30,7 @@ infraction_router = APIRouter(
         400: {"model": ErrorMsgDTO},
         500: {"model": ErrorMsgDTO},
     },
+    tags=["cargar_infraccion"],
 )
 def create_infraction(
     infraction: InfractionDTO,
