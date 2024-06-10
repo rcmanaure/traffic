@@ -12,7 +12,9 @@ from src.config.settings import settings
 from src.authentication.validators import verify_password
 
 
-authentication_router = APIRouter(prefix=settings.TOKEN_URL, tags=["authentication"])
+authentication_router = APIRouter(
+    prefix=settings.TOKEN_URL, tags=["authentication"]
+)
 
 
 @authentication_router.post("")

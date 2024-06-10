@@ -179,7 +179,9 @@ class DatabaseCRUD:
         with self.db_session as db:
             try:
                 response = (
-                    db.query(model).filter(getattr(model, field) == value).first()
+                    db.query(model)
+                    .filter(getattr(model, field) == value)
+                    .first()
                 )
             except SQLAlchemyError as e:
                 db.rollback()
@@ -223,7 +225,9 @@ class DatabaseCRUD:
                         return None
 
                     vehicles = (
-                        db.query(Vehicle).filter(Vehicle.user_id == user.id).all()
+                        db.query(Vehicle)
+                        .filter(Vehicle.user_id == user.id)
+                        .all()
                     )
                     vehicle_ids = [vehicle.id for vehicle in vehicles]
 

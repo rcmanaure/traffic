@@ -1,8 +1,8 @@
-from typing import Optional
+from typing import Optional  # noqa
 from uuid import UUID
 from pydantic import BaseModel
 
-from src.dtos.response.user import UserResponseDTO
+from src.dtos.response.user import UserResponseDTO  # noqa
 
 
 class VehicleResponseDTO(BaseModel):

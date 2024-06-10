@@ -60,7 +60,7 @@ def create_oficial(
     user: OficialDTO, db: Session = Depends(get_db)  # noqa
 ) -> OficialResponseDTO:
     db_operations = DatabaseCRUD(db)
-    role = db_operations.get_by_field(Role, "name", RoleName.OFFICIAL.value)    
+    role = db_operations.get_by_field(Role, "name", RoleName.OFFICIAL.value)
     user.password = get_password_hash(user.password)
     user = user.model_dump()
     user["role_id"] = role.id
@@ -93,8 +93,8 @@ def get_user_me(
 @user_router.get("/{user_id}")  # noqa
 def get_user(
     user_id: str,
-    db: Session = Depends(get_db),
-    current_user: UserJwtPayload = Depends(get_current_user), # noqa
+    db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ):  # noqa
     """
     Get a user by id

@@ -8,7 +8,6 @@ from src.db import get_db
 from src.dtos.authentication.user import UserJwtPayload
 from src.dtos.request.error_msg import ErrorMsgDTO
 from src.filters.infraction_filter import InfractionFilter
-from src.models.user import User
 from src.models.vehicle import Vehicle
 from src.routes.base_crud import DatabaseCRUD
 from fastapi_pagination import Page
@@ -34,7 +33,7 @@ infraction_router = APIRouter(
 )
 def create_infraction(
     infraction: InfractionDTO,
-    db: Session = Depends(get_db),
+    db: Session = Depends(get_db),  # noqa
     current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ) -> InfractionResponseDTO:
     db_operations = DatabaseCRUD(db)
@@ -51,11 +50,12 @@ def create_infraction(
     response_model_exclude_none=False,
 )
 def get_infractions(
-    infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),
+    infraction_filter: InfractionFilter = FilterDepends(  # noqa
+        InfractionFilter
+    ),  # noqa
     current_user: UserJwtPayload = Depends(get_current_user),  # noqa
     db: Session = Depends(get_db),  # noqa
 ) -> Page[InfractionResponseDTO]:
-
     db_operations = DatabaseCRUD(db)
     infractions = db_operations.get_all(Infraction, infraction_filter)
     return infractions
@@ -64,8 +64,8 @@ def get_infractions(
 @infraction_router.get("/{infraction_id}")  # noqa
 def get_infraction(
     infraction_id: str,
-    db: Session = Depends(get_db),
-    current_user: UserJwtPayload = Depends(get_current_user),
+    db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ):
     """
     Get a infraction by id
@@ -79,8 +79,8 @@ def get_infraction(
 def update_infraction(
     infraction_id: str,
     infraction: InfractionDTO,
-    db: Session = Depends(get_db),
-    current_user: UserJwtPayload = Depends(get_current_user),
+    db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ) -> InfractionResponseDTO:
     db_operations = DatabaseCRUD(db)
     infraction = db_operations.update_row(Infraction, infraction_id, infraction)
@@ -90,8 +90,8 @@ def update_infraction(
 @infraction_router.delete("/{infraction_id}")
 def delete_infraction(
     infraction_id: str,
-    db: Session = Depends(get_db),
-    current_user: UserJwtPayload = Depends(get_current_user),
+    db: Session = Depends(get_db),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
 ):
     db_operations = DatabaseCRUD(db)
     db_operations.delete_by_id(Infraction, infraction_id)
@@ -102,13 +102,16 @@ def delete_infraction(
     "/generar_informe/{email},",
     response_model=Page[InfractionResponseDTO],
     response_model_exclude_none=False,
-    tags=["generar_informe"]
+    tags=["generar_informe"],
 )
 def get_infractions_by_email(
     email: EmailStr,
-    infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),  # noqa
-    db: Session = Depends(get_db),
+    infraction_filter: InfractionFilter = FilterDepends(  # noqa
+        InfractionFilter
+    ),  # noqa
+    db: Session = Depends(get_db),  # noqa
 ) -> Page[InfractionResponseDTO]:
-
-    response = DatabaseCRUD(db).get_all(Infraction, infraction_filter, email=email)
+    response = DatabaseCRUD(db).get_all(
+        Infraction, infraction_filter, email=email
+    )
     return response

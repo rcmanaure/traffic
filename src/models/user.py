@@ -29,6 +29,6 @@ class User(Base, ModelBase):
 
     vehicle = relationship(
         Vehicle,
-        back_populates="user",   
-        lazy="joined",     
+        back_populates="user",
+        lazy="joined",
     )

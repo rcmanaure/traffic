@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-from src.dtos.request.role import RoleName
+from src.dtos.request.role import RoleName  # noqa
 
 
 class UserDTO(BaseModel):
@@ -18,4 +18,3 @@ class UserUpdateDTO(BaseModel):
 
     class Config:
         from_attributes = True
-

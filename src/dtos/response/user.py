@@ -3,15 +3,15 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+from .role import RoleResponseDTO  # noqa
 
-
-from .role import RoleResponseDTO
 
 class VehicleResponseDTOV2(BaseModel):
     id: UUID
     plate: str
     model: str
     brand: str
+
 
 class UserResponseDTO(BaseModel):
     id: UUID

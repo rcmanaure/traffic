@@ -1,10 +1,6 @@
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Column, ForeignKey, String, TIMESTAMP, text
 from sqlalchemy.orm import relationship
-
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import TIMESTAMP, Column, text
-from sqlalchemy.dialects.postgresql import UUID
-
 from src.models.vehicle import Vehicle
 from src.utils.db_utils import Constants
 from .base import ModelBase, Base
@@ -24,5 +20,3 @@ class Infraction(Base, ModelBase):
         back_populates="infraction",
         lazy="joined",
     )
-    
-    

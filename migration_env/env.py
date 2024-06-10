@@ -6,7 +6,7 @@ from alembic import context
 
 from src.models.base import Base
 from src.models.user import User  # noqa
-from src.models.infraction import Infraction  # noqa    
+from src.models.infraction import Infraction  # noqa
 
 
 from src.models.roles_permissions import Role, Permission  # noqa

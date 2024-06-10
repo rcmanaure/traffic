@@ -7,7 +7,6 @@ class AuthenticationUser(BaseModel):
     username: str
 
 
-
 class UserJwtPayload(BaseModel):
     id: str
     email: str
@@ -16,4 +15,3 @@ class UserJwtPayload(BaseModel):
     role_id: str
     role_name: str
     badge: Optional[str] = None
-
