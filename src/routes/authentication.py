@@ -12,7 +12,7 @@ from src.config.settings import settings
 from src.authentication.validators import verify_password
 
 
-authentication_router = APIRouter(prefix=settings.TOKEN_URL, tags=["login"])
+authentication_router = APIRouter(prefix=settings.TOKEN_URL, tags=["authentication"])
 
 
 @authentication_router.post("")
@@ -26,11 +26,13 @@ def login(
             # you can return any response or error of your choice
             raise HTTPException(status_code=404, detail="User not found")
         elif verify_password(form_data.password, user.password) is False:
-            raise HTTPException(status_code=400, detail="Invalid password") 
+            raise HTTPException(status_code=400, detail="Invalid password")
         elif user.is_active is False:
             raise HTTPException(status_code=400, detail="User is not active")
-        elif user.role.name == "user":
-            raise HTTPException(status_code=400, detail="Users cannot login here")
+        elif user.role.name not in ["admin", "official"]:
+            raise HTTPException(
+                status_code=400, detail="Must be an admin or official to login"
+            )
 
     except SQLAlchemyError as error:
         raise error
@@ -41,7 +43,8 @@ def login(
         username=user.username,
         is_active=user.is_active,
         role_id=str(user.role_id),
-        role_name=user.role.name,  
+        role_name=user.role.name,
+        badge=user.badge,
     ).model_dump()
 
     access_token = create_token(data, timedelta(hours=settings.TOKEN_EXPIRY))

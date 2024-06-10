@@ -75,7 +75,7 @@ def create_oficial(
 def get_users(
     user_filter: UserFilter = FilterDepends(UserFilter),  # noqa
     db: Session = Depends(get_db),  # noqa
-    # current_user: UserJwtPayload = Depends(get_current_user),  # noqa
+    current_user: UserJwtPayload = Depends(get_current_user),  # noqa
     # noqa
 ) -> Page[UserResponseDTO]:  # noqa
     db_operations = DatabaseCRUD(db)
@@ -94,7 +94,7 @@ def get_user_me(
 def get_user(
     user_id: str,
     db: Session = Depends(get_db),
-    current_user: UserJwtPayload = Depends(get_current_user),
+    current_user: UserJwtPayload = Depends(get_current_user), # noqa
 ):  # noqa
     """
     Get a user by id

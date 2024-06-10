@@ -17,7 +17,7 @@ tag = "roles"
 role_router = APIRouter(
     prefix=f"/{tag}",
     tags=[tag],
-    # dependencies=[Depends(get_current_user)],
+    dependencies=[Depends(get_current_user)],
 )
 
 

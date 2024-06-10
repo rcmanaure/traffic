@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -14,4 +15,5 @@ class UserJwtPayload(BaseModel):
     is_active: bool
     role_id: str
     role_name: str
+    badge: Optional[str] = None
 
