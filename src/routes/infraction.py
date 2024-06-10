@@ -13,7 +13,7 @@ from fastapi_pagination import Page
 from src.dtos.request.infraction import InfractionDTO
 from src.dtos.response.infraction import InfractionResponseDTO
 from src.models.infraction import Infraction
-
+from pydantic import EmailStr
 tag = "infractions"
 infraction_router = APIRouter(
     prefix=f"/{tag}",
@@ -85,14 +85,14 @@ def delete_infraction(infraction_id: str, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-from pydantic import EmailStr
+
 
 @infraction_router.get(
     "/generar_informe/{email},",
     response_model=Page[InfractionResponseDTO],
     response_model_exclude_none=False,
 )
-def get_infractions_by_email(
+def generar_informe(
     email: EmailStr,
     infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),  # noqa
     db: Session = Depends(get_db),

@@ -162,42 +162,6 @@ class DatabaseCRUD:
             else:
                 return True
 
-    # def get_all(
-    #     self,
-    #     model,
-    #     filters: Filter,
-    #     join_models: list = None,
-    # ):
-    #     """Get all rows in the model table
-
-    #     Args:
-    #         model (sqlalchemy model): The model to query
-    #         filters (Filter): The filter object
-    #         join_models (list): The models to join with the query model
-
-
-    #     Returns:
-    #         query: The query result
-    #     """
-    #     with self.db_session as db:
-    #         try:
-    #             query = select(model)
-
-    #             if join_models:
-    #                 for join_model in join_models:
-    #                     query = query.join(join_model)
-
-    #             query = filters.sort(query)
-    #             query = filters.filter(query)
-
-    #             query = paginate_sqlalchemy(db, query)
-    #         except SQLAlchemyError as e:
-    #             db.rollback()
-    #             logging.error(e)
-    #             raise HTTPException(status_code=500, detail=str(e))
-    #         else:
-    #             return query
-
     def get_by_field(self, model, field: str, value: str):
         """Get a row by field
 
@@ -229,7 +193,7 @@ class DatabaseCRUD:
         model,
         filters: Filter,
         join_models: list = None,
-        email: str = None,        
+        email: str = None,
     ):
         """Get all rows in the model table
 
@@ -262,7 +226,6 @@ class DatabaseCRUD:
                         db.query(Vehicle).filter(Vehicle.user_id == user.id).all()
                     )
                     vehicle_ids = [vehicle.id for vehicle in vehicles]
-                    # print(vehicle_ids)
 
                     query = query.filter(model.vehicle_id.in_(vehicle_ids))
 
