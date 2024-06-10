@@ -6,7 +6,7 @@
 
 - create a virtualenv.
 - `pip install -r requirements.txt`
-- create a .env and follow the example or export all the variables. example: `export API_ENVIRONMENT=local`
+- create a `.env` file using .env.example file the example or export all the variables. example: `export API_ENVIRONMENT=local`
 - create the DB: `docker-compose up -d postgres`
 - start redis: `docker-compose up -d redis`
 - run migrations: `alembic upgrade head`
@@ -48,3 +48,6 @@ https://pre-commit.com/index.html
 # Logging
 
 - use logging and use it instead print. Example: `logging.debug("debugging")`
+
+## Docker image
+- https://hub.docker.com/r/rcmanaure/traffic
