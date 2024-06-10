@@ -21,7 +21,7 @@
 
 ## Swagger:
 
-- Swagger docs: `http://localhost:8000/`
+- Swagger docs: `http://localhost:8000/` or `http://localhost:8000/docs`
 
 ## alembic
 
