@@ -85,17 +85,20 @@ def delete_infraction(infraction_id: str, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
+from pydantic import EmailStr
+
 @infraction_router.get(
     "/generar_informe/{email},",
     response_model=Page[InfractionResponseDTO],
     response_model_exclude_none=False,
 )
 def get_infractions_by_email(
-    email: str,
+    email: EmailStr,
     infraction_filter: InfractionFilter = FilterDepends(InfractionFilter),  # noqa
     db: Session = Depends(get_db),
 ) -> Page[InfractionResponseDTO]:
-    response = DatabaseCRUD(db).get_all_reports(
+    
+    response = DatabaseCRUD(db).get_all(
         Infraction, infraction_filter, email=email
     )
     return response
